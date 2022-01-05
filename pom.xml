@@ -35,7 +35,7 @@
                 <version>0.8.5</version>
                 <executions>
                     <execution>
-                        <id>prepare-agent-001</id>
+                        <id>agent-001</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>prepare-agent</goal>
