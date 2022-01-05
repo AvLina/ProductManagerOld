@@ -1,0 +1,5 @@
+domain\Smartphone.class
+repository\ProductRepository.class
+domain\Book.class
+manager\ProductManager.class
+domain\Product.class
