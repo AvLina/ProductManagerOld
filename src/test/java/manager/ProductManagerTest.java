@@ -3,12 +3,16 @@ package manager;
 import domain.Book;
 import domain.Product;
 import domain.Smartphone;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import repository.ProductRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductManagerTest {
+
+    private ProductRepository repository = new ProductRepository();
+    private ProductManager manager = new ProductManager(repository);
 
     Book book1 = new Book(01, "Доктор Гарин", 100, "Сорокин В.Г.");
     Book book2 = new Book(02, "Герой нашего времени", 80, "Лермонтов М.Ю.");
@@ -24,141 +28,8 @@ class ProductManagerTest {
 
     Product product1 = new Product(07, "Шорты", 500);
 
-    @Test
-    public void shouldNoProduct () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {};
-        Product[] actual = manager.searchBy("Honor");
-
-        assertArrayEquals (expected, actual);
-    }
-
-    @Test
-    public void shouldOneBook () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {book3};
-        Product[] actual = manager.searchBy("Замятин Е.И.");
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void searchForOneAuthor () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {book1, book4};
-        Product[] actual = manager.searchBy("Сорокин В.Г.");
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void searchByManufacturer () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {smartphone3};
-        Product[] actual = manager.searchBy("Japan");
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void searchByName () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {smartphone2};
-        Product[] actual = manager.searchBy("Samsung");
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldProductPartOfName () {
-        ProductRepository repository = new ProductRepository();
-        repository.save(book1);
-        repository.save(book2);
-        repository.save(book3);
-        repository.save(book4);
-        repository.save(book5);
-        repository.save(smartphone1);
-        repository.save(smartphone2);
-        repository.save(smartphone3);
-        repository.save(smartphone4);
-        repository.save(smartphone5);
-
-        ProductManager manager = new ProductManager(repository);
-
-        Product[] expected = {book2};
-        Product[] actual = manager.searchBy("Герой");
-
-        assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void testAnotherProduct () {
-        ProductRepository repository = new ProductRepository();
+    @BeforeEach
+    public void setUp() {
         repository.save(book1);
         repository.save(book2);
         repository.save(book3);
@@ -170,14 +41,68 @@ class ProductManagerTest {
         repository.save(smartphone4);
         repository.save(smartphone5);
         repository.save(product1);
+    }
 
-        ProductManager manager = new ProductManager(repository);
+    @Test
+    public void shouldNoProduct() {
+
+        Product[] expected = {};
+        Product[] actual = manager.searchBy("Honor");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldOneBook() {
+
+        Product[] expected = {book3};
+        Product[] actual = manager.searchBy("Замятин Е.И.");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchForOneAuthor() {
+
+        Product[] expected = {book1, book4};
+        Product[] actual = manager.searchBy("Сорокин В.Г.");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchByManufacturer() {
+
+        Product[] expected = {smartphone3};
+        Product[] actual = manager.searchBy("Japan");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchByName() {
+
+        Product[] expected = {smartphone2};
+        Product[] actual = manager.searchBy("Samsung");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldProductPartOfName() {
+
+        Product[] expected = {book2};
+        Product[] actual = manager.searchBy("Герой");
+
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testAnotherProduct() {
 
         Product[] expected = {};
         Product[] actual = manager.searchBy("Шорты");
 
         assertArrayEquals(expected, actual);
-
     }
-
 }
